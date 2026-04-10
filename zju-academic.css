@@ -1,8 +1,7 @@
-/* @theme zju-academic */
+/* @theme zju */
 
 @import 'gaia';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Source+Code+Pro&display=swap');
 
 :root {
   --color-background: #fff;
@@ -10,84 +9,56 @@
   --color-highlight: #1b4285;
 }
 
+
+/**
+ * General slide styles
+ * -------------------------------------------------------------------------- */
+
 section {
   background-image: none;
-  font-family: 'Noto Sans SC', sans-serif;
-  padding-top: 90px;
-  padding-left: 40px;
-  padding-right: 40px;
+  font-family: 'Noto Serif SC', serif;
+  padding: 90px 40px 40px 40px; /* Consolidate padding properties */
 }
 
-
+/* Custom pagination style: current / total */
 /* https://github.com/marp-team/marpit/issues/271 */
 section::after {
   font-weight: 700;
   content: attr(data-marpit-pagination) '/' attr(data-marpit-pagination-total);
 }
 
+/* Style for nested lists */
 ul ul {
   font-size: 0.9em;
 }
 
-section.lead h1 {
-  color: #1b4285;
-  text-align: left;
-}
-section.lead h1 strong {
-  -webkit-text-stroke: 1px #1b4285;
-}
-section.lead h2 {
-  color: #1b4285;
-  text-align: left;
-}
-section.lead h2 strong {
-  -webkit-text-stroke: 1px #1b4285;
-}
-section.lead h3 {
-  color: #1b4285;
-  text-align: left;
-}
-section.lead h3 strong {
-  -webkit-text-stroke: 1px #1b4285;
-}
-section.lead h4 {
-  color: #1b4285;
-  text-align: left;
-}
-section.lead h4 strong {
-  -webkit-text-stroke: 1px #1b4285;
-}
-section.lead h5 {
-  color: #1b4285;
-  text-align: left;
-}
-section.lead h5 strong {
-  -webkit-text-stroke: 1px #1b4285;
-}
-section.lead p {
-  text-align: right;
-}
+
+/**
+ * Header and footer elements
+ * -------------------------------------------------------------------------- */
 
 header {
-  background-color: #1b4285;
+  background-color: var(--color-highlight);
   color: #fff;
   font-size: 1em;
-  font-weight: 700;
+  font-weight: 700; /* This line is restored to make header text bold. */
 }
 
+/* ZJU logo in the header */
+/* Suggestion: Host the logo image locally for better reliability. */
 header::after {
   content: '';
-  position: absolute; /* 绝对定位 */
-  right: 10px; /* 右侧位置 */
-    top: -15%; 
-  /* transform: translateY(-10%); 确保垂直居中 */
-  background-image: url('https://raw.githubusercontent.com/CouesF/OpenImageBed/master/uPic/2024-01-10-20_32-浙江大学logo-白.png'); /* 浙江大学 logo */
-  background-size: contain; /* 保持 logo 的尺寸 */
-  background-repeat: no-repeat; /* 不重复 */
-  width: 200px; /* logo 的宽度 */
-  height: 200px; /* logo 的高度 */
+  position: absolute;
+  top: -15%;
+  right: 10px;
+  width: 200px;
+  height: 200px;
+  background-image: url('https://raw.githubusercontent.com/CouesF/OpenImageBed/master/uPic/2024-01-10-20_32-浙江大学logo-白.png');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
+/* Using blockquote as a footer note */
 blockquote {
   max-width: 90%;
   border-top: 0.1em dashed #555;
@@ -95,25 +66,103 @@ blockquote {
   position: absolute;
   bottom: 20px;
 }
-blockquote::before {
-  content: "";
-}
+
+/* Override default quote characters from the base theme */
+blockquote::before,
 blockquote::after {
   content: "";
 }
 
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
+
+/**
+ * Content styling
+ * -------------------------------------------------------------------------- */
+
+code {
+  font-family: 'Source Code Pro', monospace;
 }
 
-/* 右对齐图像，左侧留空间放文本 */
+
+/**
+ * Image alignment helpers
+ * Usage: ![center](image.png), ![right](image.png)
+ * -------------------------------------------------------------------------- */
+
+img[alt~="center"] {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 img[alt~="right"] {
   display: block;
   margin-left: auto;
   margin-right: 0;
 }
 
-code {
-  font-family: 'Source Code Pro', monospace;
+
+/**
+ * Lead slide style (`class: lead`)
+ * -------------------------------------------------------------------------- */
+
+section.lead h1,
+section.lead h2,
+section.lead h3,
+section.lead h4,
+section.lead h5 {
+  color: var(--color-highlight);
+  text-align: center;
+}
+
+section.lead h1 strong,
+section.lead h2 strong,
+section.lead h3 strong,
+section.lead h4 strong,
+section.lead h5 strong {
+  -webkit-text-stroke: 1px var(--color-highlight);
+  /* The color property is inherited, so no need to set it again */
+}
+
+section.lead p {
+  text-align: center;
+}
+
+
+/**
+ * Multi-column layout support
+ * Usage: <div class="columns"> ... </div>
+ * -------------------------------------------------------------------------- */
+
+/* Base style for all column containers */
+[class^="columns"] {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Specific column counts and ratios */
+.columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.columns-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.columns-73 { grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); }
+.columns-37 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+.columns-21 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.columns-12 { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+
+/* Vertical alignment helper */
+.columns-center,
+.columns.center {
+  align-items: center;
+}
+
+/* Responsive images within columns */
+[class^="columns"] img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* List styling within columns */
+[class^="columns"] ul,
+[class^="columns"] ol {
+  margin: 0;
+  padding-left: 1.2rem;
 }
